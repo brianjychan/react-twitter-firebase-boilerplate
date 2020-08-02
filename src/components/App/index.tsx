@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
 } from "react-router-dom"
 
 import { ROUTES } from '../../constants'
@@ -21,9 +20,9 @@ const MainApp: React.FC = () => {
     return (
         <Router>
             <Switch>
-                {/* <Route path={ROUTES.USERNAME}>
+                <Route path={ROUTES.USERNAME}>
                     <ProfilePage />
-                </Route> */}
+                </Route>
                 <Route path={ROUTES.ROOT}>
                     <HomePage />
                 </Route>
@@ -112,12 +111,6 @@ const AppWithTwitter: React.FC = () => {
                 // Register user for first time
             }
             catch (error) {
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                // The email of the user's account used.
-                var email = error.email;
-                // The firebase.auth.AuthCredential type that was used.
-                var credential = error.credential;
                 console.log(error)
             }
 
