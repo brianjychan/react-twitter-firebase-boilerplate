@@ -30,6 +30,16 @@ Backend
 - Learn how to set up a firebase project here: [Add Firebase to your Javascript project](https://firebase.google.com/docs/web/setup)
     - Note that Step 3 is partially taken care of with the 'Using module bundlers' approach. See `./src/components/Firebase`.
     - To initialize Firebase, Create a `.env` file and put your firebase config details there, as labelled in `src/components/Firebase/firebase.ts` (example being `REACT_APP_API_KEY={your API key here}`). `.env` is excluded in `.gitignore`
+    - ```js
+      REACT_APP_API_KEY=
+      REACT_APP_AUTH_DOMAIN=
+      REACT_APP_DATABASE_URL=
+      REACT_APP_PROJECT_ID=
+      REACT_APP_STORAGE_BUCKET=
+      REACT_APP_MESSAGING_SENDER_ID=
+      REACT_APP_APP_ID=
+      REACT_APP_MEASUREMENT_ID=
+      ```
     - After changing environment variables, you need to restart your development server
 - After installing the firebase CLI, make sure to run `firebase init` to create a `.firebaserc` file, which points your Firebase CLI (deploying functions, firestore/storage rules, etc.) to the right project. Note this might rewrite the `./functions` folder though. Learn more here: [Firebase CLI reference](https://firebase.google.com/docs/cli)
 - Twitter login

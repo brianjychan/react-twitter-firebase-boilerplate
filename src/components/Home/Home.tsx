@@ -1,11 +1,15 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useFirebase } from '../Firebase'
 import { Button } from 'react-bootstrap'
 import { useSession } from '../Session'
+import { Redirect } from 'react-router-dom'
+import { ROUTES } from '../../constants'
 
 const HomePage: React.FC = () => {
     const firebase = useFirebase()
     const session = useSession()
+    const [twitterSignIn, setTwitterSignIn] = useState(false)
+
 
     // Sample write to Firestore
     const accessFirestore = useCallback(async () => {
@@ -23,13 +27,18 @@ const HomePage: React.FC = () => {
     useEffect(() => {
         accessFirestore()
     }, [accessFirestore])
-    console.log()
+
+    if (twitterSignIn) {
+        return (
+            <Redirect to={ROUTES.TWITTER} />
+        )
+    }
     if (session.auth) {
         return (
             <div>
                 <p>Home</p>
                 <p>Logged in!</p>
-                <Button variant="info" onClick={() => { firebase.doSignOut() }}>Sign Out</Button>
+                <Button variant="outline-primary" onClick={() => { firebase.doSignOut() }}>Sign Out</Button>
 
             </div>
         )
@@ -37,7 +46,7 @@ const HomePage: React.FC = () => {
         return (
             <div>
                 <p>Home</p>
-                <Button variant="info" onClick={() => { firebase.doTwitterSignIn() }}>Sign In to Twitter</Button>
+                <Button variant="primary" onClick={() => { setTwitterSignIn(true) }}>Sign In to Twitter</Button>
             </div>
         )
     }
