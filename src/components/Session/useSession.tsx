@@ -1,10 +1,11 @@
 import { createContext, useContext } from 'react'
 import firebase from 'firebase'
+import { UserProfile } from '../Types/UserProfile';
 
 export interface SessionObject {
     initializing: boolean,
     auth: firebase.User | null,
-    prof: any, // profile
+    prof: UserProfile | null
 }
 
 const SessionContext = createContext<SessionObject>({

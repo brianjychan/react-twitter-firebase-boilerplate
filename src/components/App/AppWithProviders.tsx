@@ -10,8 +10,9 @@ import { ROUTES } from '../../constants'
 import { HomePage } from '../Home'
 import { useFirebase } from '../Firebase'
 import { useSession, SessionContext } from '../Session/'
-import { CreateNewProfilePayload } from '../../Types/CreateNewProfile';
+import { CreateNewProfilePayload } from '../Types/CreateNewProfile';
 import { SessionObject } from '../Session/useSession';
+import { UserProfile } from '../Types/UserProfile';
 
 interface CredentialObj {
     oauthAccessToken: string,
@@ -38,18 +39,20 @@ const TwitterAuthPage: React.FC = () => {
                         accessToken: credentialObj.oauthAccessToken,
                         accessTokenSecret: credentialObj.oauthTokenSecret
                     }
-                    
+
                     // Check to create new profile
+                    // TODO: check firestore first, perhaps
                     try {
                         const createNewProfile = firebase.functions.httpsCallable('createNewProfile')
-                        const createProfileResult = await createNewProfile(payload)
-                        if (createProfileResult.data.success) {
+                        await createNewProfile(payload)
+                        setProfileComplete(true)
+                    } catch (e) {
+                        console.error(e)
+                        if (e.code === 'already-exists') {
                             setProfileComplete(true)
                         } else {
                             setInvalidProfileCreation(true)
                         }
-                    } catch (error) {
-                        setInvalidProfileCreation(true)
                     }
                 } else {
                     // User just arrived on page
@@ -67,7 +70,7 @@ const TwitterAuthPage: React.FC = () => {
 
     if (pageMode === 0) {
         // Determining login stage 
-        return (<div />)
+        return (<div>Loading...</div>)
     } else if (pageMode === 1) {
         // Before logging in
         return (
@@ -75,7 +78,6 @@ const TwitterAuthPage: React.FC = () => {
         )
     } else if (pageMode === 2) {
         // After logging in to Twitter and redirect 
-
         if (invalidProfileCreation) {
             return (
                 <p>Failed to create profile</p>
@@ -89,7 +91,7 @@ const TwitterAuthPage: React.FC = () => {
             <p>Creating your profile...</p>
         )
     } else {
-        return <div />
+        return <div>Loading...</div>
     }
 
 }
@@ -98,7 +100,7 @@ const AppWithRoutes: React.FC = () => {
     const session = useSession()
 
     if (session.initializing) {
-        return (<div />)
+        return (<div>Initializing...</div>)
     }
 
     return (
@@ -115,7 +117,6 @@ const AppWithRoutes: React.FC = () => {
     )
 }
 
-
 const AppWithAuth: React.FC = () => {
     const firebase = useFirebase()
     const [session, setSession] = useState<SessionObject>({
@@ -129,22 +130,17 @@ const AppWithAuth: React.FC = () => {
         let unsubscribeProfile = () => { }
 
         function onChange(newUser: any) {
-            console.log('New user detected in auth onChange: ', newUser)
             if (newUser === null) {
                 // Not authenticated
                 setSession({ initializing: false, auth: null, prof: null })
             } else {
                 // TODO: replace `users` with wherever your user's profiles are located
                 unsubscribeProfile = firebase.db.collection('users').doc(newUser.uid).onSnapshot(async function (profileDoc) {
-                    console.log('Retrieving profile')
-                    const profileData = profileDoc.data()
+                    const profileData = profileDoc.data() as UserProfile
                     setSession({ initializing: false, auth: newUser, prof: profileData })
                 }, (error) => {
-                    console.error('Couldn\'t access profile')
-                    console.log(error)
-                    setSession({ initializing: false, auth: newUser, prof: null })
+                    console.error('Couldn\'t access profile. Error: ', error)
                 })
-
             }
         }
 
@@ -163,9 +159,5 @@ const AppWithAuth: React.FC = () => {
         </SessionContext.Provider>
     )
 }
-
-
-
-
 
 export { AppWithAuth } 
