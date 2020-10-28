@@ -7,7 +7,7 @@ import {
 } from "react-router-dom"
 
 import { ROUTES } from '../../constants'
-import { HomePage } from '../Home'
+import { HomePageWithAuth } from '../Home'
 import { useFirebase } from '../Firebase'
 import { useSession, SessionContext } from '../Session/'
 import { CreateNewProfilePayload } from '../Types/CreateNewProfile';
@@ -110,7 +110,7 @@ const AppWithRoutes: React.FC = () => {
                     <TwitterAuthPage />
                 </Route>
                 <Route path={ROUTES.ROOT}>
-                    <HomePage />
+                    <HomePageWithAuth />
                 </Route>
             </Switch>
         </Router>

@@ -4,6 +4,8 @@ import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 import { FirebaseContext, Firebase } from './components/Firebase';
 
+import './global.css'
+
 ReactDOM.render(
   <React.StrictMode>
     <FirebaseContext.Provider value={new Firebase()}>
