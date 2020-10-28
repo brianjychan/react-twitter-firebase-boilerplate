@@ -69,7 +69,7 @@ const HomePage: React.FC = () => {
                 </Row >
                 {/* Main Content */}
                 <Row className={styles.marginTop}>
-                    <Col>
+                    <Col xs={12} sm={6} md={4}>
                         {session.auth ?
                             <>
                                 <p>Logged in!</p>
@@ -77,8 +77,10 @@ const HomePage: React.FC = () => {
                             </>
                             :
                             <>
-                                <Button variant="primary" onClick={() => { setTwitterSignIn(true) }}>Sign In with Twitter</Button>
-                                <p>or...</p>
+                                <h3>Sign In</h3>
+                                <h6 className={styles.marginTop}>With Twitter:</h6>
+                                <Button variant="primary" onClick={() => { setTwitterSignIn(true) }}>Sign In With Twitter</Button>
+                                <h6 className={styles.marginTop}>With Email/Password:</h6>
                                 <EmailPwAuth />
                             </>
                         }
