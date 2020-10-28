@@ -136,6 +136,9 @@ const AppWithAuth: React.FC = () => {
             } else {
                 // TODO: replace `users` with wherever your user's profiles are located
                 unsubscribeProfile = firebase.db.collection('users').doc(newUser.uid).onSnapshot(async function (profileDoc) {
+                    if (!profileDoc.exists) {
+                        return
+                    }
                     const profileData = profileDoc.data() as UserProfile
                     setSession({ initializing: false, auth: newUser, prof: profileData })
                 }, (error) => {
