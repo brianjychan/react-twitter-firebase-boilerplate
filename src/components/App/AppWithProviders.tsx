@@ -19,6 +19,8 @@ interface CredentialObj {
     oauthTokenSecret: string
 }
 
+// TODO: when returning to auth page afterwards, 
+// handle non-auth flicker by modifying session with a joining variable 
 const TwitterAuthPage: React.FC = () => {
     const firebase = useFirebase()
 

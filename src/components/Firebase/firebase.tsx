@@ -35,7 +35,6 @@ class Firebase {
     functions: firebase.functions.Functions
     provider: firebase.auth.AuthProvider
     timeAgo: TimeAgo
-    analytics: firebase.analytics.Analytics
 
 
     constructor() {
@@ -48,7 +47,6 @@ class Firebase {
         this.functions = app.functions()
         this.provider = new app.auth.TwitterAuthProvider()
         this.timeAgo = new TimeAgo('en-US')
-        this.analytics = app.analytics();
     }
 
     // *** Auth API ***
