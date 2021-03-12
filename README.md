@@ -1,4 +1,4 @@
-# React / Firebase / Typescript Boilerplate
+# React / Firebase / Twitter Boilerplate
 A minimal way to get started and build a simple full-stack web app using create-react-app and Firebase.
 
 Boilerplate project setup using:
